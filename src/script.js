@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
+import gsap from 'gsap'
 
 const gltfLoader = new GLTFLoader()
 
@@ -14,17 +15,25 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+let tl = gsap.timeline()
   
 // Phone
-gltfLoader.load('untitled.gltf', (gltf) => {
+gltfLoader.load('phone.gltf', (gltf) => {
 
     gltf.scene.scale.set(0.3, 0.3, 0.3)
-    gltf.scene.rotation.set(0, 4.7, 0)
+    gltf.scene.rotation.set(0, 3.3, 0)
     scene.add(gltf.scene)
 
     gui.add(gltf.scene.rotation, 'x').min(0).max(9)
     gui.add(gltf.scene.rotation, 'y').min(0).max(9)
     gui.add(gltf.scene.rotation, 'z').min(0).max(9)
+
+    tl.to(gltf.scene.rotation, { y: 4.7, duration: 1})
+    tl.to(gltf.scene.scale, { x: 0.2, y: 0.2, z: 0.2, duration: 1}, "-=1")
+    tl.to(gltf.scene.position, { x: .5})
+    tl.to(gltf.scene.rotation, { y: 4.1, duration: 1})
+    tl.to(gltf.scene.scale, { x: 0.25, y: 0.25, z: 0.25, duration: 1}, "-=1")
 })
 
 
